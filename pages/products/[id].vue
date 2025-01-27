@@ -1,14 +1,14 @@
 <template>
     <web-header />
-    <h2>Mietvertrag</h2>
-    <div>
-            <!-- <h1>{{ item.type }}</h1> -->
-            <h1 v-if="item">{{ item.name }} ({{ item.type }})</h1>
-            <p v-if="item">Kosten: {{ item.costs }} €</p>
-            <p v-if="item">Kapazität: {{ item.capacity }} Fahrräder</p>
-            <p v-if="item">Kennzeichen: {{ item.plate }}</p>
-            <!-- <img v-if="item" :src="item.picture" alt="Anhänger Bild" /> -->
-        </div>
+    <div id="details">
+      <img  v-if="item" :src="item.picture" alt="Anhänger Bild" />
+      <div>
+        <h1 v-if="item">Mietvertrag: {{ item.name }} ({{ item.type }})</h1>
+        <p v-if="item">Kosten: {{ item.costs }} €</p>
+        <p v-if="item">Kapazität: {{ item.capacity }} Fahrräder</p>
+        <p v-if="item">Kennzeichen: {{ item.plate }}</p>
+      </div>
+    </div>
     <div class="form-container">
       
   
@@ -16,10 +16,6 @@
         <!-- Mietparteien -->
         <section class="section">
           <h3>Mietparteien</h3>
-          <div class="field">
-            <label for="landlord">Vermieter (Name, Vorname, Firma)</label>
-            <input type="text" v-model="formData.landlord" id="landlord" placeholder="Firma / Name / Vorname" required />
-          </div>
           <div class="field">
             <label for="tenant">Mieter (Name, Vorname, Firma)</label>
             <input type="text" v-model="formData.tenant" id="tenant" placeholder="Firma / Name / Vorname" required />
@@ -29,12 +25,20 @@
             <input type="text" v-model="formData.address" id="address" placeholder="Königstraße 60" required />
           </div>
           <div class="field">
-            <label for="zipcode">Postleitzahl & Ort</label>
-            <input type="text" v-model="formData.zipcode" id="zipcode" placeholder="25709 Marne" required />
+            <label for="zipcode">Postleitzahl</label>
+            <input type="text" v-model="formData.zipcode" id="zipcode" placeholder="01099" required />
           </div>
           <div class="field">
-            <label for="contact">Telefon / E-Mail-Adresse</label>
-            <input type="text" v-model="formData.contact" id="contact" placeholder="Telefonnummer / E-Mail" required />
+            <label for="city">Ort</label>
+            <input type="text" v-model="formData.city" id="zipcode" placeholder="Dresden" required />
+          </div>
+          <div class="field">
+            <label for="contact">Telefon</label>
+            <input type="tel" v-model="formData.tel" id="contact" placeholder="0 1234 5678" required />
+          </div>
+          <div class="field">
+            <label for="contact">E-Mail-Adresse</label>
+            <input type="email" v-model="formData.email" id="contact" placeholder="tom@atolix.com" required />
           </div>
           <div class="field">
             <label for="idNumber">Personalausweisnummer / Führerscheinnummer</label>
@@ -57,97 +61,108 @@
   
         <!-- Zubehör -->
         <section class="section">
-          <h3>Zubehör</h3>
-          <div class="checkbox-group">
-            <label><input type="checkbox" v-model="formData.accessories" value="Spanngurte" /> Spanngurte</label>
-            <label><input type="checkbox" v-model="formData.accessories" value="Diebstahlsicherung" /> Diebstahlsicherung</label>
-            <label><input type="checkbox" v-model="formData.accessories" value="Seilwinde & Kurbel" /> Seilwinde & Kurbel</label>
-            <label><input type="checkbox" v-model="formData.accessories" value="Adapter 7/13 polig" /> Adapter 7/13 polig</label>
-            <label><input type="checkbox" v-model="formData.accessories" value="Hebel f. Hydraulikpumpe" /> Hebel f. Hydraulikpumpe</label>
-            <label><input type="checkbox" v-model="formData.accessories" value="Sonstige" /> Sonstige</label>
-          </div>
-          <div class="field" v-if="formData.accessories.includes('Sonstige')">
-            <label for="otherAccessories">Sonstige Zubehör (bitte angeben)</label>
-            <input type="text" v-model="formData.otherAccessories" id="otherAccessories" />
-          </div>
+  <h3>Zubehör</h3>
+  <div class="checkbox-group">
+    <label class="form-row">
+      <p>Spanngurte</p>
+      <input type="number" v-model="formData.tensionBelt" id="accessories" required />
+    </label>
+    <label class="form-row">
+      <p>Diebstahlsicherung</p>
+      <input type="checkbox" v-model="formData.theftProtection" value="Diebstahlsicherung" />
+    </label>
+    <label class="form-row">
+      <p>Seilwinde & Kurbel</p>
+      <input type="number" v-model="formData.cableWinch" id="accessories" required/>
+    </label>
+    <label class="form-row">
+      <p>Adapter (7/13 polig):</p>
+      <input type="number" v-model="formData.adapter" id="accessories"  required />
+    </label>
+    <label class="form-row">
+      <p>Hebel f. Hydraulikpumpe</p>
+      <input type="number" v-model="formData.lever" id="accessories" required  />
+    </label>
+    <label class="form-row" for="moreInput">
+      <p>Sonstige</p>
+      <input id="moreInput" type="checkbox" v-model="formData.moreInput" value="Sonstige" />
+</label>
+  </div>
+  <div class="field" v-if="formData.moreInput">
+    <input type="text" v-model="formData.otherAccessories" id="otherAccessories" placeholder="product, product, ..." />
+  </div>
+</section>
+	<!-- Mietpreis -->
+	<section class="section">
+		<h3>Mietpreis</h3>
         </section>
-  
-        <!-- Mietpreis -->
-        <section class="section">
-          <h3>Mietpreis</h3>
-          <div class="field">
-            <label for="trailerPrice">Anhänger Preis (EUR)</label>
-            <input type="number" v-model="formData.trailerPrice" id="trailerPrice" placeholder="Anhänger Preis" required />
-          </div>
-          <div class="field">
-            <label for="accessoryPrice">Zubehör Preis (EUR)</label>
-            <input type="number" v-model="formData.accessoryPrice" id="accessoryPrice" placeholder="Zubehör Preis" />
-          </div>
-          <div class="field">
-            <label for="totalPrice">Gesamtpreis (EUR)</label>
-            <input type="number" v-model="formData.totalPrice" id="totalPrice" placeholder="Gesamtpreis" readonly />
-          </div>
-          <div class="field">
-            <label for="paymentMethod">Zahlungsweise</label>
-            <input type="text" v-model="formData.paymentMethod" id="paymentMethod" required />
-          </div>
-          <div class="field">
-            <label for="deposit">Kaution (EUR)</label>
-            <input type="number" v-model="formData.deposit" id="deposit" placeholder="Kaution" required />
-          </div>
-        </section>
-  
         <!-- Submit Button -->
         <button type="submit">Formular absenden</button>
       </form>
     </div>
-  </template>
+</template>
   
-  <script setup lang="ts">
+<script setup lang="ts">
 
     import { ref, onMounted, watch } from 'vue'
     import { useRoute } from 'vue-router'
+
+
+    type Trailer = {
+    type: string;
+    name: string;
+    id: number;
+    costs: number;
+    plate: string;
+    capacity: number; // Korrigiert: `capacity` sollte ein Zahlentyp sein
+    picture: string; // Optional: Bild des Anhängers
+  };
 
     // ID aus der URL holen
     const { id } = useRoute().params
     const item = ref<Trailer | null>(null)
 
-    onMounted(async () => {
-        // Fetch Trailer-Daten
-        const { data: trailers } = await useFetch('/api/products')
-        
-        // Wenn Daten erfolgreich abgerufen wurden, nach dem Trailer mit der ID suchen
-        if (Array.isArray(trailers.value)) {
-            const foundItem = trailers.value.find((trailer: Trailer) => trailer.id === Number(id))
-            item.value = foundItem || null // Falls kein Trailer gefunden wurde, null setzen
-        }
-    });
+    const { data: trailers } = await useFetch('/api/products')
+    if(trailers.value !== null)
+    {
+      const foundItem = trailers.value.find((trailer: any) => trailer.id === Number(id))
+      if(foundItem)
+        item.value = foundItem
+      else 
+        console.log("not found")
+    }
   
   const formData = ref({
     landlord: '',
     tenant: '',
     address: '',
     zipcode: '',
-    contact: '',
+    city: '',
+    tel: '',
+    email: '',
     idNumber: '',
     startDate: '',
     endDate: '',
-    accessories: [],
+    tensionBelt: 0,
+    theftProtection: false,
+    cableWinch: 0,
+    adapter: 0, 
+    lever: 0,
+    moreInput: false,
     otherAccessories: '',
-    trailerPrice: 0,
-    accessoryPrice: 0,
-    totalPrice: 0,
-    paymentMethod: '',
-    deposit: 0,
   })
+  const Price = {
+	tensionBelt: 30.00,
+
+  }
   
   // Watcher für Berechnung des Gesamtpreises
-  watch(
-    () => formData.value.trailerPrice + formData.value.accessoryPrice,
-    (newValue) => {
-      formData.value.totalPrice = newValue + (newValue * 0.19) // Berechnung mit 19% MwSt.
-    },
-  )
+//   watch(
+//     () => formData.value.trailerPrice + formData.value.accessoryPrice,
+//     (newValue) => {
+//       formData.value.totalPrice = newValue + (newValue * 0.19) // Berechnung mit 19% MwSt.
+//     },
+//   )
   
   const submitForm = () => {
     console.log(formData.value)
@@ -155,7 +170,56 @@
   }
   </script>
   
-  <style scoped>
+<style scoped>
+  .checkbox-group {
+    display: flex;
+    flex-direction: column; /* Zeilenlayout für die Labels */
+    gap: 1rem; /* Abstand zwischen den Zeilen */
+  }
+
+  .form-row {
+    display: flex;
+    align-items: center; /* Vertikale Zentrierung von Text und Input */
+    justify-content: space-between; /* Abstand zwischen Text und Input */
+    gap: 1rem; /* Abstand zwischen Text und Eingabefeld */
+  }
+
+  .form-row p {
+    margin: 0; /* Entfernt unnötige Abstände um den Text */
+    flex: 1; /* Text nimmt maximalen verfügbaren Platz ein */
+  }
+
+  .form-row input[type="number"] {
+    max-width: 80px; /* Minimale Breite für Nummernfelder */
+    padding: 0.5rem; /* Angemessene Innenabstände */
+  }
+
+  .form-row input[type="checkbox"] {
+    width: auto; /* Checkbox bleibt kompakt */
+  }
+
+    #details {
+      display: flex; /* Aktiviert Flexbox */
+      padding: 2rem;
+      margin: 2rem;
+      align-items: center; /* Zentriert das Bild und den Text vertikal */
+      gap: 1rem; /* Abstand zwischen Bild und Text */
+    }
+
+    #details img {
+      max-width: 200px; /* Begrenzung der Bildbreite */
+      height: auto; /* Stellt sicher, dass das Bild proportional skaliert */
+    }
+
+    #details div {
+      flex: 1; /* Der Text nimmt den restlichen verfügbaren Platz ein */
+    }
+
+  	h1{
+      font-size: 2rem;
+      font-weight: bolder;
+    }
+
   .form-container {
     max-width: 800px;
     margin: 0 auto;
@@ -172,7 +236,7 @@
     margin-bottom: 10px;
   }
   
-  input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"] {
+  input[type="text"], input[type="number"], input[type="date"], input[type="checkbox"], input[type="tel"], input[type="email"] {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
