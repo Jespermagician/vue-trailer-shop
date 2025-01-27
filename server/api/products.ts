@@ -1,13 +1,15 @@
 // Definition des Anhänger-Typs
-type Trailer = {
-    type: string;
-    name: string;
-    id: number;
-    costs: number;
-    plate: string;
-    capacity: number; // Korrigiert: `capacity` sollte ein Zahlentyp sein
-    picture: string; // Optional: Bild des Anhängers
-  };
+declare global {
+    type Trailer = {
+        type: string;
+        name: string;
+        id: number;
+        costs: number;
+        plate: string;
+        capacity: number; // Korrigiert: `capacity` sollte ein Zahlentyp sein
+        picture: string; // Optional: Bild des Anhängers
+      };
+}
 
 export default defineEventHandler(async (event) => {
 
