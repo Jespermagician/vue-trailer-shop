@@ -1,14 +1,16 @@
 <template>
   <web-header />
-
-  <div id="details">
-    <!-- Trailer-Details anzeigen -->
-    <img v-if="item" :src="item.picture" alt="Anhänger Bild" />
-    <div>
-      <h1 v-if="item">Mietvertrag: {{ item.name }} ({{ item.type }})</h1>
-      <p v-if="item">Kosten: {{ item.costs }} €</p>
-      <p v-if="item">Kapazität: {{ item.capacity }} Fahrräder</p>
-      <p v-if="item">Kennzeichen: {{ item.plate }}</p>
+  <div id="body">    
+    <div id="details">
+      <!-- Trailer-Details anzeigen -->
+      <img v-if="item" :src="item.picture" alt="Anhänger Bild" />
+      <div>
+        <h2>Mietvertrag: </h2>
+        <h1 v-if="item">{{ item.name }} ({{ item.type }})</h1>
+        <p v-if="item">Kosten: {{ item.costs }} €</p>
+        <p v-if="item">Kapazität: {{ item.capacity }} Fahrräder</p>
+        <p v-if="item">Kennzeichen: {{ item.plate }}</p>
+      </div>
     </div>
   </div>
 
@@ -343,27 +345,31 @@
     width: auto; /* Checkbox bleibt kompakt */
   }
 
-    #details {
-      display: flex; /* Aktiviert Flexbox */
-      padding: 2rem;
-      margin: 2rem;
-      align-items: center; /* Zentriert das Bild und den Text vertikal */
-      gap: 1rem; /* Abstand zwischen Bild und Text */
-    }
+  #body {
+    margin: 20px;
+  }
 
-    #details img {
-      max-width: 200px; /* Begrenzung der Bildbreite */
-      height: auto; /* Stellt sicher, dass das Bild proportional skaliert */
-    }
+  #details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+}
 
-    #details div {
-      flex: 1; /* Der Text nimmt den restlichen verfügbaren Platz ein */
-    }
+#details img {
+  max-width: 150px;
+  border-radius: 8px;
+}
 
-  	h1{
-      font-size: 2rem;
-      font-weight: bolder;
-    }
+   
+
+  h1{
+    font-size: 2rem;
+    font-weight: bolder;
+  }
 
   .form-container {
     max-width: 800px;

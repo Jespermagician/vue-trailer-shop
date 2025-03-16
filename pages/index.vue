@@ -4,7 +4,7 @@
     <div id="body">
       
       <h1 class="align-middle">Anhängerverleih Müller</h1>
-      <img id="logo" src="../images/tractor-1548779_1280.jpg" alt="logo">
+      <img id="logo" src="../images/tractor-1548779_1280.jpg" alt="Blauer Anhänger, mit vier Reifen, vor grüner Hecke">
       <AppAlert>
         This is an auto-imported component.
       </AppAlert>
